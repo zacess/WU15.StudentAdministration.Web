@@ -23,9 +23,16 @@ namespace WU15.StudentAdministration.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/core/app").Include(
+                      "~/Scripts/core/app.js",
+                      "~/Scripts/core/utilities.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/core/css").Include(
+                      "~/Content/core/Style.css"));
         }
     }
 }
