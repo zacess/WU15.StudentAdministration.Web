@@ -1,5 +1,4 @@
-﻿
-var Utilities = new function Utilities() {
+﻿var Utilities = new function Utilities() {
 
     Utilities.formToJson = function (form) {
         var jsonForm = {};
@@ -64,18 +63,27 @@ var Page = new function Page() {
     }
 
     // Fetch the data and render the page.
-    Page.displayStudentList = function () {               
+    Page.displayStudentList = function () {
 
-        var data = {}
+        $.ajax({
+            type: "GET",
+            url: configuration.studentsUrl,
+            data: { sid: configuration.organizationId }
+        }).done(function (data) {
+            console.log("[Page.displayStudentList]: Number of items returned: " + data.length);
 
-        Page.renderStudentList(data);
+            // Render the courses.
+            Page.renderStudentList(data);
 
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText || textStatus);
+        });
     }
 
     Page.renderDefault = function (courses) {
         var view = "";
         configuration.defaultPlaceholder.empty();
-                
+
         var courseIndex = 0;
         for (var contentIndex = 0; contentIndex < courses.length; contentIndex = contentIndex + configuration.numberOfColumnsPerRow) {
             var item = "<div class='row list-item'>";
@@ -142,20 +150,22 @@ var Page = new function Page() {
         configuration.courseListPlaceholder.fadeIn(500);
     }
 
-    Page.renderStudentList = function (student) {
-        configuration.studentListPlaceholder.empty();
+    // Render student list table
+    Page.renderStudentList = function (students) {
+        var tbody = $("#studentListTable tbody");
+        tbody.empty();
 
-        var view = "Student list...";
+        var html = "";
+        for (var index = 0; index < students.length; index++) {
+            html += "<tr>";
+            html += "<td>" + students[index].firstName + "</td>";
+            html += "<td>" + students[index].lastName + "</td>";
+            html += "<td>" + students[index].personalId + "</td>";
+            html += "</tr>";
+        }
+        tbody.append(html);
 
-        configuration.studentListPlaceholder.append(view);
-
-        //configuration.studentListPlaceholder.fadeIn(500);
-        configuration.defaultPlaceholder.hide();
-
-        // Display the details panel.
         configuration.studentListPlaceholder.fadeIn(500);
-
-
     }
 
     Page.displayCourseDetails = function (id) {
@@ -169,6 +179,23 @@ var Page = new function Page() {
             console.log(data);
 
             Page.renderCourseDetails(data);
+
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText || textStatus);
+        });
+    }
+
+    Page.displayStudentDetails = function (id) {
+        console.log("[Page.displayStudentDetails]: Fetching item having id: " + id);
+
+        $.ajax({
+            type: "GET",
+            url: configuration.studentsUrl + id
+        }).done(function (data) {
+
+            console.log(data);
+
+            Page.renderStudentsDetails(data);
 
         }).error(function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText || textStatus);
@@ -200,6 +227,19 @@ var Page = new function Page() {
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
 
+    Page.renderStudentDetails = function (course) {
+        // Hide the default view.
+        configuration.defaultPlaceholder.hide();
+
+        // Map all form values from the course object to the form.
+        var form = configuration.studentListPlaceholder.find("form")[0];
+        $(form["id"]).val(student.id);
+        $(form["firstName"]).val(student.firstName);
+        $(form["lastName"]).val(student.lastName);
+                
+        // Display the details panel.
+        configuration.courseDetailsPlaceholder.fadeIn(500);
+    }
     Page.renderCourseDetailsStudentList = function (course) {
         configuration.courseDetailsStudentListPlaceholder.empty();
         if (course.students.length) {
@@ -270,9 +310,30 @@ var Page = new function Page() {
 
                 // De-scelect the top menu button.
                 Page.deselectMenu();
-
+                Page.selectMenu("Start");
                 // Display the default contents.
                 Page.displayDefault();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+
+    }
+    // Saves a student and update the view
+    Page.saveStudentAndDisplayStudents = function (student) {
+
+        $.ajax({
+            url: configuration.studentsUrl,
+            type: "POST",
+            data: JSON.stringify(student),
+            contentType: "application/json",
+            success: function (data, textStatus, jqXHR) {
+                console.log("[Page.saveStudentAndDisplayDefault.success]: Results: " + data);
+          
+                // Display the default contents.
+                Page.displayStudentList();
+                $("#studentListAddStudentForm").show();
+                $("#studentListTable").show();
             },
             error: function (jqXHR, textStatus, errorThrown) {
             }
@@ -295,6 +356,30 @@ var Page = new function Page() {
                 $.event.trigger({
                     type: "courseSavedCustomEvent",
                     message: { description: "Saved a course.", data: course },
+                    time: new Date()
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+
+    }
+
+    // Saves a student and doesn't do a view update.
+    Page.saveStudentDetails = function (student) {
+
+        $.ajax({
+            url: configuration.studentsUrl,
+            type: "POST",
+            data: JSON.stringify(student),
+            contentType: "application/json",
+            success: function (data, textStatus, jqXHR) {
+                console.log("[Page.saveStudentDetails.success]: Results: " + data);
+
+                // Brodcast student added event.
+                $.event.trigger({
+                    type: "studentSavedCustomEvent",
+                    message: { description: "Saved a student.", data: student },
                     time: new Date()
                 });
             },
@@ -344,9 +429,9 @@ var Page = new function Page() {
         var firstName = selectedStudentOption.data("firstName");
         var lastName = selectedStudentOption.data("lastName");
         var student = { id: id, firstName: firstName, lastName: lastName }
-        
-            selectedStudentOption.remove();
-        
+
+        selectedStudentOption.remove();
+
         // Remove the empty list default text.
         var numberOfRegisteredStudents
             = configuration.courseDetailsStudentListPlaceholder
@@ -384,6 +469,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                
 
                 Page.displayStudentList();
 
@@ -392,6 +478,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                configuration.studentListPlaceholder.hide();
 
                 var course = Page.getCourseTemplate();
                 Page.renderCourseDetails(course);
@@ -401,9 +488,10 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                
 
-                Page.renderStudentList();
-
+                Page.displayAddStudentForm();
+                break;
             default:
                 configuration.courseDetailsPlaceholder.hide();
                 Page.displayDefault();
@@ -415,6 +503,8 @@ var Page = new function Page() {
         $('.navbar li.active').removeClass('active');
     }
 
+    Page.selectMenu = function (menuText) {
+        $(".navbar li a.navigation:contains(" + menuText + ")").parent().addClass('active');
+    }
     return Page;
 }
-

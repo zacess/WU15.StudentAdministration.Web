@@ -34,8 +34,9 @@
 
         // De-scelect the top menu button.
         Page.deselectMenu();
-
+        
         Page.displayDefault();
+        Page.selectMenu("Start");
     });
 
     // Save the course details.
@@ -69,16 +70,16 @@
         var lastName = $(item).data("lastName");
         var student = { id: id, firstName: firstName, lastName: lastName }
         Page.appendStudentSelectOption(student);
-        
+
         // Remove from the registered list.
         $(item).remove();
     });
 
     // Register a student.
     $("#registerSelectedStudentButton").on('click', function (event) {
-        
-            Page.registerSelectedStudent();
-        
+
+        Page.registerSelectedStudent();
+
     });
 
     $('.navbar li, a').click(function (e) {
@@ -111,6 +112,28 @@
         Page.saveCourseDetails(course);
     });
 
+    $("#studentDetailsForm").submit(function (event) {
+        event.preventDefault();
+
+        console.log("[studentDetailsForm.submit]: Submitted student details form.");
+
+        var student = Utilities.formToJson(this);
+        page.saveStudentAndDisplayStudents(student);
+        
+    });
+
+    $("#studentListAddStudentForm").submit(function (event) {
+        event.preventDefault();
+        console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+
+        var student = Utilities.formToJson(this);
+
+        $(this)[0].reset();
+
+        Page.saveStudentAndDisplayStudents(student);
+        
+    });
+
     $(document).on("courseSavedCustomEvent", function (event) {
         console.log("[courseSavedCustomEvent]: " + event.message.description);
         console.log("[courseSavedCustomEvent]: " + event.message.data);
@@ -119,4 +142,11 @@
 
     });
 
+    $(document).on("studentSavedCustomEvent", function (event) {
+        console.log("[studentSavedCustomEvent]: " + event.message.description);
+        console.log("[studentSavedCustomEvent]: " + event.message.data);
+
+        Page.displayStudentList();
+
+    });
 });
