@@ -19,12 +19,14 @@
     // Do some page bootstrapping.
     Page.init();
 
+    
     // Display course details for clicked course.
     $("#defaultPlaceholder").on("click", ".list-item", function (event) {
         var id = $(event.target).data("itemId");
         console.log("[#defaultPlaceholder.click]: Course list clicked: " + id);
         if (id) {
             Page.displayCourseDetails(id);
+            
         }
     });
 

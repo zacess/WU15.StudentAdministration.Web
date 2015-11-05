@@ -34,10 +34,14 @@ var Page = new function Page() {
             url: configuration.coursesUrl,
             data: { sid: configuration.organizationId }
         }).done(function (data) {
-
+            data.sort(function (a, b) {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+            });
             // Render the courses.
             Page.renderDefault(data);
-
+            
         }).error(function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText || textStatus);
         });
@@ -72,7 +76,7 @@ var Page = new function Page() {
         }).done(function (data) {
             console.log("[Page.displayStudentList]: Number of items returned: " + data.length);
 
-            // Render the courses.
+            // Render the students.
             Page.renderStudentList(data);
 
         }).error(function (jqXHR, textStatus, errorThrown) {
@@ -83,7 +87,7 @@ var Page = new function Page() {
     Page.renderDefault = function (courses) {
         var view = "";
         configuration.defaultPlaceholder.empty();
-
+        
         var courseIndex = 0;
         for (var contentIndex = 0; contentIndex < courses.length; contentIndex = contentIndex + configuration.numberOfColumnsPerRow) {
             var item = "<div class='row list-item'>";
@@ -96,7 +100,7 @@ var Page = new function Page() {
             }
 
             // Iterate the courses.
-            // Calculate witch bootstrap class to use. 
+            // Calculate which bootstrap class to use. 
             // Bootstrap uses a 12 column grid system. 
             var bootstrapColumns = 12 / configuration.numberOfColumnsPerRow;
             for (; courseIndex < (tempCourseIndex) ; courseIndex++) {
