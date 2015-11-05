@@ -67,6 +67,7 @@ var Page = new function Page() {
     Page.displayStudentList = function () {               
 
         var data = {}
+
         Page.renderStudentList(data);
 
     }
@@ -141,13 +142,20 @@ var Page = new function Page() {
         configuration.courseListPlaceholder.fadeIn(500);
     }
 
-    Page.renderStudentList = function () {
+    Page.renderStudentList = function (student) {
         configuration.studentListPlaceholder.empty();
 
         var view = "Student list...";
+
         configuration.studentListPlaceholder.append(view);
 
+        //configuration.studentListPlaceholder.fadeIn(500);
+        configuration.defaultPlaceholder.hide();
+
+        // Display the details panel.
         configuration.studentListPlaceholder.fadeIn(500);
+
+
     }
 
     Page.displayCourseDetails = function (id) {
@@ -216,7 +224,7 @@ var Page = new function Page() {
         } else {
             configuration
                 .courseDetailsStudentListPlaceholder
-                .append("<div>Inga studenter registrerade.</div>");
+                .append("<br /><div>Inga studenter registrerade.</div>");
         }
     }
 
@@ -272,7 +280,7 @@ var Page = new function Page() {
 
     }
 
-    // Saves a course and does'nt do a view update.
+    // Saves a course and doesn't do a view update.
     Page.saveCourseDetails = function (course) {
 
         $.ajax({
@@ -347,10 +355,11 @@ var Page = new function Page() {
         if (numberOfRegisteredStudents === 0) {
             configuration.courseDetailsStudentListPlaceholder.empty();
         }
+        if (student.id) {
+            Page.appendStudentToList(student);
 
-        Page.appendStudentToList(student);
-
-        console.log("Registring student having id " + id + ".");
+            console.log("Registring student having id " + id + ".");
+        }
     }
 
     Page.navigate = function (panel) {
@@ -388,6 +397,13 @@ var Page = new function Page() {
                 Page.renderCourseDetails(course);
 
                 break;
+            case "addStudent":
+                configuration.courseDetailsPlaceholder.hide();
+                configuration.defaultPlaceholder.hide();
+                configuration.courseListPlaceholder.hide();
+
+                Page.renderStudentList();
+
             default:
                 configuration.courseDetailsPlaceholder.hide();
                 Page.displayDefault();
