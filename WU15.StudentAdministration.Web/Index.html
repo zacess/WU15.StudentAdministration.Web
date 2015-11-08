@@ -122,11 +122,11 @@
 </div>
         <div class="container">
 
-            <div id="defaultPlaceholder" class="coursesOnStartPage"></div>
+            <div id="defaultPlaceholder" class="studentOnStartPage"></div>
 
             <!-- The default view. A list of all courses and students. -->
-            <div id="courseDetailsPlaceholder" style="max-width: 675px;">
-                <form id="courseDetailsForm">
+            <div id="studentDetailsPlaceholder" style="max-width: 675px;">
+                <form id="studentDetailsForm">
                     <input type="hidden" name="id" value="0" />
                     <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
 
@@ -145,12 +145,12 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Poäng</label>
+                                        <label>Efternamn</label>
                                         <input type="text" class="form-control" name="lastName" placeholder="Efternamn">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>År</label>
+                                        <label>Personnummer</label>
                                         <input type="text" class="form-control" name="personalId" placeholder="Personnummer">
                                     </div>
                                     
@@ -170,19 +170,9 @@
                                         <div style="float: left; padding: 3px; padding-left: 0px;">
                                             <select class="form-control" id="studentDetailsStudentSelectList"></select>
                                         </div>
-                                        <br />
-                                        <div style="float: left; padding: 3px;">
-                                            <button type="button" id="registerSelectedStudentButton" class="btn btn-primary btn-sm">Registrera</button>
-                                        </div>
-                                        <div style="clear: both;"></div>
-
-
-                                        <div class="list-group" id="courseDetailsStudentListPlaceholder">
-                                            List of students currently assigned the this course.
-                                        </div>
-
-
-
+                                        
+                                        <div style="clear: both;"></div>                                    
+                                        
                                     </div>
                                 </div>
                             </div>

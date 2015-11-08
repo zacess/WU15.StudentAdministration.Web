@@ -466,6 +466,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
 
                 Page.displayDefault();
 
@@ -474,6 +475,8 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
+                
 
                 Page.displayCourseList();
 
@@ -482,6 +485,8 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
+                
                 
 
                 Page.displayStudentList();
@@ -492,6 +497,8 @@ var Page = new function Page() {
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
+                
 
                 var course = Page.getCourseTemplate();
                 Page.renderCourseDetails(course);
@@ -503,7 +510,7 @@ var Page = new function Page() {
                 configuration.courseListPlaceholder.hide();
                 
 
-                Page.displayAddStudentForm();
+               
                 break;
             default:
                 configuration.courseDetailsPlaceholder.hide();
