@@ -240,6 +240,7 @@ var Page = new function Page() {
         $(form["id"]).val(student.id);
         $(form["firstName"]).val(student.firstName);
         $(form["lastName"]).val(student.lastName);
+        $(form["personalId"]).val(student.personalId);
                 
         // Display the details panel.
         configuration.courseDetailsPlaceholder.fadeIn(500);
@@ -259,6 +260,8 @@ var Page = new function Page() {
                     + course.students[index].firstName
                     + " "
                     + course.students[index].lastName
+                    + " "
+                    + course.students[index].personalId
 
                     // Render the trash can, the remove student button.
                     + "<span class='pull-right'><button class='remove-registered-student btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></button></span>"
@@ -292,13 +295,14 @@ var Page = new function Page() {
     }
 
     Page.appendStudentSelectOption = function (student) {
-        var name = student.firstName + " " + student.lastName;
+        var name = student.firstName + " " + student.lastName + " " + student.personalId;
         configuration.courseDetailsStudentSelectList.append(
             $("<option />")
             .text(name)
             .attr("data-id", student.id)
-            .attr("data-first-name", student.firstName)
-            .attr("data-last-name", student.lastName));
+            .attr("data-first-name", student.firstName)            
+            .attr("data-last-name", student.lastName)
+            .attr("data-personal-id", student.personalId));
     }
 
     // Saves a course and displays the default view.
@@ -401,10 +405,14 @@ var Page = new function Page() {
                     + student.firstName
                     + "' data-last-name='"
                     + student.lastName
+                    + "' data-personal-id='"
+                    + student.personalId
                     + "'>"
                     + student.firstName
                     + " "
                     + student.lastName
+                    + " "
+                    + student.personalId
 
                     // Render the trash can remove student button.
                     + "<span class='pull-right'><button class='remove-registered-student btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></button></span>"
@@ -432,7 +440,8 @@ var Page = new function Page() {
         var id = selectedStudentOption.data("id");
         var firstName = selectedStudentOption.data("firstName");
         var lastName = selectedStudentOption.data("lastName");
-        var student = { id: id, firstName: firstName, lastName: lastName }
+        var personalId = selectedStudentOption.data("personalId");
+        var student = { id: id, firstName: firstName, lastName: lastName, personalId: personalId}
 
         selectedStudentOption.remove();
 
