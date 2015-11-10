@@ -75,7 +75,11 @@ var Page = new function Page() {
             data: { sid: configuration.organizationId }
         }).done(function (data) {
             console.log("[Page.displayStudentList]: Number of items returned: " + data.length);
-
+            data.sort(function (a, b) {
+                if (a.firstName < b.firstName) return -1;
+                if (a.firstName > b.firstName) return 1;
+                return 0;
+            });
             // Render the students.
             Page.renderStudentList(data);
 
@@ -466,7 +470,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                configuration.studentDetailsPlaceholder.hide();
+                
 
                 Page.displayDefault();
 
@@ -475,7 +479,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                configuration.studentDetailsPlaceholder.hide();
+                
                 
 
                 Page.displayCourseList();
@@ -485,7 +489,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
-                configuration.studentDetailsPlaceholder.hide();
+                
                 
                 
 
@@ -497,7 +501,7 @@ var Page = new function Page() {
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                configuration.studentDetailsPlaceholder.hide();
+                
                 
 
                 var course = Page.getCourseTemplate();
@@ -509,8 +513,7 @@ var Page = new function Page() {
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 
-
-               
+                Page.displayStudentList();
                 break;
             default:
                 configuration.courseDetailsPlaceholder.hide();

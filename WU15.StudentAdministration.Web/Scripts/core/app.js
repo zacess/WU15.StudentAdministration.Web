@@ -71,7 +71,8 @@
         var id = $(item).data("id");
         var firstName = $(item).data("firstName");
         var lastName = $(item).data("lastName");
-        var student = { id: id, firstName: firstName, lastName: lastName }
+        var personalId = $(item).data("personalId");
+        var student = { id: id, firstName: firstName, lastName: lastName, personalId: personalId }
         Page.appendStudentSelectOption(student);
 
         // Remove from the registered list.
