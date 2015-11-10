@@ -53,7 +53,7 @@ namespace WU15.StudentAdministration.Web
             var course = new Course()
             {
                 Id = 1,
-                Students = Students,
+                //Students = Students,
                 SchoolNo = "c08bdab7-ed3d-4048-8338-d4f14f2770a8",
                 Credits = "15",
                 Name = "Pedagogik 1",

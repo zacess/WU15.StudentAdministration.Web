@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
+
 namespace WU15.StudentAdministration.Web.Models
 {
     public class Course    
@@ -21,9 +22,9 @@ namespace WU15.StudentAdministration.Web.Models
         
         public IEnumerable<Student> Students { get; set; }
 
-        public Course()
-        {
-            Students = new List<Student>();
-        }
+       public Course()
+       {
+           Students = new List<Student>();
+       }
     }
 }

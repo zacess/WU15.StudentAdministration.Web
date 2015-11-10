@@ -141,6 +141,7 @@ var Page = new function Page() {
         configuration.defaultPlaceholder.fadeIn(500);
     }
 
+    //Render course list table
     Page.renderCourseList = function (courses) {
         var tbody = $("#courseListTable tbody");
         tbody.empty();
@@ -249,6 +250,7 @@ var Page = new function Page() {
         // Display the details panel.
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
+
     Page.renderCourseDetailsStudentList = function (course) {
         configuration.courseDetailsStudentListPlaceholder.empty();
         if (course.students.length) {
@@ -331,6 +333,7 @@ var Page = new function Page() {
         });
 
     }
+
     // Saves a student and update the view
     Page.saveStudentAndDisplayStudents = function (student) {
 

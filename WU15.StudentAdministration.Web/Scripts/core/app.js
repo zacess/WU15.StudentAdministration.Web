@@ -111,6 +111,7 @@
 
         var course = Utilities.formToJson(this);
         course.students = [];
+
         $(this)[0].reset();
 
         Page.saveCourseDetails(course);
@@ -131,7 +132,7 @@
         console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
 
         var student = Utilities.formToJson(this);
-
+        
         $(this)[0].reset();
 
         Page.saveStudentAndDisplayStudents(student);
