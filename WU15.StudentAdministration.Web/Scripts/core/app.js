@@ -14,7 +14,7 @@
         courseDetailsStudentSelectList: $("#courseDetailsStudentSelectList"),
         courseListPlaceholder: $("#courseListPlaceholder"),
         studentListPlaceholder: $("#studentListPlaceholder"),
-
+        studentDetailsPlaceholder: $("#studentDetailsPlaceholder")
     });
 
     // Do some page bootstrapping.
@@ -117,14 +117,39 @@
         Page.saveCourseDetails(course);
     });
 
+    $("#studentListPlaceholder").on("click", ".edit", function (event) {
+        var studentId = $(this).data("itemId");
+        console.log("[#studentListPlaceholder.click]: Student id clicked: " + studentId);
+        if (studentId) {
+            
+            Page.displayStudentDetailsPlaceholder(studentId);
+        }
+        
+    });
+
+    $("#studentDetailsCancelButton").on("click", function (event) {
+        console.log("[#studentDetailsCancelButton.click]: Student details canceled.");
+
+        // De-scelect the top menu button.
+        Page.deselectMenu();
+
+        Page.displayStudentList();
+        Page.selectMenu("Studenter");
+    });
+
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
-
-        console.log("[studentDetailsForm.submit]: Submitted student details form.");
+        console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
 
         var student = Utilities.formToJson(this);
-        page.saveStudentAndDisplayStudents(student);
-        
+
+        $(this)[0].reset();
+        Page.deselectMenu();
+
+        Page.displayStudentList();
+
+        Page.saveStudentAndDisplayStudents(student);
+        Page.selectMenu("Studenter");
     });
 
     $("#studentListAddStudentForm").submit(function (event) {

@@ -33,8 +33,8 @@
                     <li class="active"><a class="navigation" href="#start">Start</a></li>
                     <li><a class="navigation" href="#courses">Kurser</a></li>
                     <li><a class="navigation" href="#students">Studenter</a></li>
-                    <li><a class="navigation" href="#addCourse">Redigera kurs</a></li>
-                    <li><a class="navigation" href="#addStudent">Ny student</a></li>
+                    <li><a class="navigation" href="#addCourse">Redigera Kurs</a></li>
+                    <li><a class="navigation" href="#addStudent">Redigera Student</a></li>
                 </ul>
             </div>
         </div>
@@ -47,6 +47,8 @@
         <!-- The default view. A list of all courses and students. -->
         <div id="courseDetailsPlaceholder" style="max-width: 675px;">
             <form id="courseDetailsForm">                
+                <input type="hidden" name="id" value="0" />
+                <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -98,12 +100,9 @@
                                     </div>
                                     <div style="clear: both;"></div>
 
-
                                     <div class="list-group" id="courseDetailsStudentListPlaceholder">
                                         List of students currently assigned the this course.
                                     </div>
-
-
 
                                 </div>
                             </div>
@@ -132,6 +131,8 @@
 
                     <div class="panel-body">
                         <form id="courseListAddCourseForm">                            
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
 
                             <div class="form-group form-input-container" style="float: left;">
                                 <label>Namn</label>
@@ -193,6 +194,8 @@
 
                     <div class="panel-body">
                         <form id="studentListAddStudentForm">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
 
                             <div class="form-group form-input-container" style="float: left;">
                                 <label>Förnamn</label>
@@ -233,6 +236,49 @@
                     </table>
                 </div>
             </div>
+
+    <div id="studentDetailsPlaceholder" style="max-width: 675px;">
+        <form id="studentDetailsForm">
+            <input type="hidden" name="id" value="0" />
+            <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span name="title"></span></h3>
+                </div>
+                <div class="panel-body">
+
+                    <div style="float: left; padding: 10px; padding-top: 0px; padding-bottom: 0px;">
+                        <!-- - -->
+                        <div class="well well-sm">
+                            <div class="form-group">
+                                <label>Namn</label>
+                                <input type="text" class="form-control" name="firstName" placeholder="Förnamn">
+                            </div>
+                            <div class="form-group">
+                                <label>Förnamn</label>
+                                <input type="text" class="form-control" name="lastName" placeholder="Efternamn">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Personnummer</label>
+                                <input type="text" class="form-control" name="personalId" placeholder="Personnummer">
+                            </div>
+                        </div>
+                        <!-- - -->
+                    </div>               
+
+                    <div style="clear: both; padding: 10px; padding-top: 0px;">
+                        <button type="submit" class="btn btn-success">Spara</button>
+                        <button type="button" id="studentDetailsCancelButton" class="btn btn-warning">Stäng</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
             <footer>
                 <p>&copy; <b>SKOLK</b>onsulten 2015</p>
             </footer>        

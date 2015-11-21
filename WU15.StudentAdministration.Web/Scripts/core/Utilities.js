@@ -166,11 +166,11 @@ var Page = new function Page() {
 
         var html = "";
         for (var index = 0; index < students.length; index++) {
-            html += "<tr>";
+            html += "<tr class='edit' data-item-id='" + students[index].id + "'>";
             html += "<td>" + students[index].firstName + "</td>";
             html += "<td>" + students[index].lastName + "</td>";
-            html += "<td>" + students[index].personalId + "</td>";
-            html += "</tr>";
+            html += "<td>" + students[index].personalId + "</td>";         
+            html += "</tr>";            
         }
         tbody.append(html);
 
@@ -432,10 +432,23 @@ var Page = new function Page() {
             id: 0,
             name: "",
             credits: 0,
+            schoolNo: configuration.organizationId,             
             students: []
         }
 
         return course;
+    }
+    Page.getStudentTemplate = function () {
+        var student = {
+            id: 0,
+            firstName: "",
+            lastName: "",
+            personalId: "",
+            schoolNo: configuration.organizationId
+            
+        }
+
+        return student;
     }
 
     Page.registerSelectedStudent = function () {
@@ -466,13 +479,48 @@ var Page = new function Page() {
         }
     }
 
+    Page.displayStudentDetailsPlaceholder = function (id) {
+        console.log("[Page.displayStudentDetailsPlaceholder]: Fetching item having id: " + id);
+
+        $.ajax({
+            type: "GET",
+            url: configuration.studentsUrl + id
+        }).done(function (data) {
+
+            console.log(data);
+
+            Page.renderStudentDetailsPlaceholder(data);
+
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText || textStatus);
+        });
+    }
+
+    Page.renderStudentDetailsPlaceholder = function (student) {
+        // Hide the default view.
+        configuration.defaultPlaceholder.hide();
+
+        // Map all form values from the student object to the form.
+        var form = configuration.studentDetailsPlaceholder.find("form")[0];
+        $(form["id"]).val(student.id);
+        $(form["firstName"]).val(student.firstName);
+        $(form["lastName"]).val(student.lastName);
+        $(form["personalId"]).val(student.personalId);
+
+        // Set the details panel top header text.
+        $(form).find('[name=title]').text(student.firstName + " " + student.lastName);
+
+        // Display the details panel.
+        configuration.studentDetailsPlaceholder.fadeIn(500);
+    }
+
     Page.navigate = function (panel) {
         switch (panel) {
             case "start":
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                
+                configuration.studentDetailsPlaceholder.hide();                
 
                 Page.displayDefault();
 
@@ -481,8 +529,7 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                
-                
+                configuration.studentDetailsPlaceholder.hide();                
 
                 Page.displayCourseList();
 
@@ -491,10 +538,8 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();              
                 
-                
-                
-
                 Page.displayStudentList();
 
                 break;
@@ -503,8 +548,7 @@ var Page = new function Page() {
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-                
-                
+                configuration.studentDetailsPlaceholder.hide();                
 
                 var course = Page.getCourseTemplate();
                 Page.renderCourseDetails(course);
@@ -514,8 +558,11 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
+                configuration.studentListPlaceholder.hide();
                 
-                Page.displayStudentList();
+                var student = Page.getStudentTemplate
+                Page.renderStudentDetailsPlaceholder(student);
+
                 break;
             default:
                 configuration.courseDetailsPlaceholder.hide();

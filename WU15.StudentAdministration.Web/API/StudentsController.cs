@@ -11,7 +11,7 @@ namespace WU15.StudentAdministration.Web.API
     public class StudentsController : ApiController
     {
         public IEnumerable<Student> Get()
-        {            
+        {
             return MvcApplication.Students;
         }
 
@@ -24,12 +24,24 @@ namespace WU15.StudentAdministration.Web.API
         {
             if (student.Id == 0)
             {
-                var id = MvcApplication.Students.Max(x => x.Id) + 1;
-                student.Id = id;
+                if (MvcApplication.Students.Any())
+                {
+                    var id = MvcApplication.Students.Max(x => x.Id) + 1;
+                    student.Id = id;
+                }
+                else
+                {
+                    student.Id = 1;
+                }
+            }
+            else
+            {
+                var savedIndex = MvcApplication.Students.FindIndex(x => x.Id == student.Id);
+                MvcApplication.Students.RemoveAt(savedIndex);
             }
             MvcApplication.Students.Add(student);
 
-            return string.Format("{0} {1}", student.FirstName, student.LastName);       
+            return string.Format("{0} {1} {2}", student.FirstName, student.LastName, student.personalId);       
         }
 
         [HttpDelete]
