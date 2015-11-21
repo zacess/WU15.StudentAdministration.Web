@@ -432,7 +432,6 @@ var Page = new function Page() {
             id: 0,
             name: "",
             credits: 0,
-            schoolNo: configuration.organizationId,
             students: []
         }
 

@@ -33,7 +33,7 @@
                     <li class="active"><a class="navigation" href="#start">Start</a></li>
                     <li><a class="navigation" href="#courses">Kurser</a></li>
                     <li><a class="navigation" href="#students">Studenter</a></li>
-                    <li><a class="navigation" href="#addCourse">Ny kurs</a></li>
+                    <li><a class="navigation" href="#addCourse">Redigera kurs</a></li>
                     <li><a class="navigation" href="#addStudent">Ny student</a></li>
                 </ul>
             </div>
@@ -46,9 +46,7 @@
 
         <!-- The default view. A list of all courses and students. -->
         <div id="courseDetailsPlaceholder" style="max-width: 675px;">
-            <form id="courseDetailsForm">
-                <input type="hidden" name="id" value="0" />
-                <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
+            <form id="courseDetailsForm">                
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -133,9 +131,7 @@
                     </div>
 
                     <div class="panel-body">
-                        <form id="courseListAddCourseForm">
-                            <input type="hidden" name="id" value="0" />
-                            <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
+                        <form id="courseListAddCourseForm">                            
 
                             <div class="form-group form-input-container" style="float: left;">
                                 <label>Namn</label>
@@ -197,8 +193,6 @@
 
                     <div class="panel-body">
                         <form id="studentListAddStudentForm">
-                            <input type="hidden" name="id" value="0" />
-                            <input type="hidden" name="schoolNo" value="c08bdab7-ed3d-4048-8338-d4f14f2770a8" />
 
                             <div class="form-group form-input-container" style="float: left;">
                                 <label>Förnamn</label>
@@ -241,8 +235,6 @@
             </div>
             <footer>
                 <p>&copy; <b>SKOLK</b>onsulten 2015</p>
-            </footer>
-
-        </div>
+            </footer>        
 </body>
 </html>
