@@ -348,7 +348,8 @@ var Page = new function Page() {
                 // Display the default contents.
                 Page.displayStudentList();
                 $("#studentListAddStudentForm").show();
-                $("#studentListTable").show();
+                $("#studentListTable").show();                
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
             }
@@ -488,7 +489,7 @@ var Page = new function Page() {
         }).done(function (data) {
 
             console.log(data);
-
+            $("#studentListPlaceholder").hide();
             Page.renderStudentDetailsPlaceholder(data);
 
         }).error(function (jqXHR, textStatus, errorThrown) {

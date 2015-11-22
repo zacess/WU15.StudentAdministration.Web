@@ -121,35 +121,35 @@
         var studentId = $(this).data("itemId");
         console.log("[#studentListPlaceholder.click]: Student id clicked: " + studentId);
         if (studentId) {
-            
+            $("#studentDetailsForm").show();
             Page.displayStudentDetailsPlaceholder(studentId);
         }
         
     });
 
     $("#studentDetailsCancelButton").on("click", function (event) {
+        event.preventDefault();
         console.log("[#studentDetailsCancelButton.click]: Student details canceled.");
 
         // De-scelect the top menu button.
         Page.deselectMenu();
-
+        $("#studentDetailsForm").hide();
         Page.displayStudentList();
         Page.selectMenu("Studenter");
     });
 
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
-        console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+        console.log("[studentDetailsForm.submit]: Submitted the new student form.");
 
         var student = Utilities.formToJson(this);
 
         $(this)[0].reset();
         Page.deselectMenu();
-
-        Page.displayStudentList();
-
-        Page.saveStudentAndDisplayStudents(student);
-        Page.selectMenu("Studenter");
+            $("#studentDetailsForm").hide();       
+            Page.saveStudentAndDisplayStudents(student);
+            Page.selectMenu("Studenter");
+        
     });
 
     $("#studentListAddStudentForm").submit(function (event) {
@@ -159,7 +159,7 @@
         var student = Utilities.formToJson(this);
         
         $(this)[0].reset();
-
+        $("#studentDetailsForm").hide();
         Page.saveStudentAndDisplayStudents(student);
         
     });
