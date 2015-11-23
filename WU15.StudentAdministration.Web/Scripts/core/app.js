@@ -144,7 +144,7 @@
 
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
-        if (validate4()) {
+        
             console.log("[studentDetailsForm.submit]: Submitted the new student form.");
 
             var student = Utilities.formToJson(this);
@@ -154,7 +154,7 @@
             $("#studentDetailsForm").hide();
             Page.saveStudentAndDisplayStudents(student);
             Page.selectMenu("Studenter");
-        }
+        
         
     });
 
