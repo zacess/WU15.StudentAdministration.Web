@@ -19,15 +19,15 @@
 
     // Do some page bootstrapping.
     Page.init();
-
     
     // Display course details for clicked course.
     $("#defaultPlaceholder").on("click", ".list-item", function (event) {
         var id = $(event.target).data("itemId");
         console.log("[#defaultPlaceholder.click]: Course list clicked: " + id);
         if (id) {
+            Page.deselectMenu();
             Page.displayCourseDetails(id);
-            
+            Page.selectMenu("Redigera Kurs");
         }
     });
 
@@ -36,8 +36,7 @@
         console.log("[#courseDetailsCancelButton.click]: Course details canceled.");
 
         // De-scelect the top menu button.
-        Page.deselectMenu();
-        
+        Page.deselectMenu();        
         Page.displayDefault();
         Page.selectMenu("Start");
     });
@@ -85,7 +84,6 @@
     $("#registerSelectedStudentButton").on('click', function (event) {
 
         Page.registerSelectedStudent();
-
     });
 
     $('.navbar li, a').click(function (e) {
@@ -102,7 +100,6 @@
         var panel = this.href.substr(this.href.indexOf("#") + 1);
 
         console.log(panel);
-
         Page.navigate(panel);
     });
 
@@ -115,8 +112,7 @@
         var course = Utilities.formToJson(this);
         course.students = [];
 
-        $(this)[0].reset();
-        
+        $(this)[0].reset();        
         Page.saveCourseDetails(course);
     }
     });
@@ -127,8 +123,7 @@
         if (studentId) {
             $("#studentDetailsForm").show();
             Page.displayStudentDetailsPlaceholder(studentId);
-        }
-        
+        }        
     });
 
     $("#studentDetailsCancelButton").on("click", function (event) {
@@ -153,8 +148,7 @@
             Page.deselectMenu();
             $("#studentDetailsForm").hide();
             Page.saveStudentAndDisplayStudents(student);
-            Page.selectMenu("Studenter");
-        
+            Page.selectMenu("Studenter");        
         
     });
 
@@ -176,7 +170,6 @@
         console.log("[courseSavedCustomEvent]: " + event.message.data);
 
         Page.displayCourseList();
-
     });
 
     $(document).on("studentSavedCustomEvent", function (event) {
@@ -184,6 +177,5 @@
         console.log("[studentSavedCustomEvent]: " + event.message.data);
 
         Page.displayStudentList();
-
     });
 });

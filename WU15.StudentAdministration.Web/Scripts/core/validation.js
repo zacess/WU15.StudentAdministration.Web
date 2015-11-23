@@ -50,7 +50,7 @@ function validate2() {
         }
     }
 
-function validate3() {   
+function validate3() {    
     var firstName = studentList.firstName.value;    
     var lastName = studentList.lastName.value;
     var personalId = studentList.personalId.value;   

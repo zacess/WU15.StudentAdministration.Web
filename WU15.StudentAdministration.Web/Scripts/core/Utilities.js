@@ -169,7 +169,8 @@ var Page = new function Page() {
             html += "<tr class='edit' data-item-id='" + students[index].id + "'>";
             html += "<td>" + students[index].firstName + "</td>";
             html += "<td>" + students[index].lastName + "</td>";
-            html += "<td>" + students[index].personalId + "</td>";         
+            html += "<td>" + students[index].personalId + "</td>";
+            html += "<td>" + "<span class='list-group-addon glyphicon glyphicon-edit'></span>&nbsp;" + "</td>";
             html += "</tr>";            
         }
         tbody.append(html);
