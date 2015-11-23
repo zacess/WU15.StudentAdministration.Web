@@ -45,11 +45,12 @@
     // Save the course details.
     $("#courseDetailsForm").submit(function (event) {
         event.preventDefault();
-        console.log("[courseDetailsForm.submit]: Submitted course details form.");
+        if (validate2()) {
+            console.log("[courseDetailsForm.submit]: Submitted course details form.");
 
-        var course = Utilities.formToJson(this);
-        course.students = [];
-
+            var course = Utilities.formToJson(this);
+            course.students = [];
+        
         var student = null;
         $(".registered-student").each(function () {
             student = {
@@ -59,8 +60,9 @@
             }
             course.students.push(student);
         });
-
+        
         Page.saveCourseAndDisplayDefault(course);
+        }
     });
 
     // Remove a registered student.
@@ -105,16 +107,18 @@
     });
 
     // Save the new course details from the course list view.
-    $("#courseListAddCourseForm").submit(function (event) {
+    $("#courseListAddCourseForm").submit(function (event) {        
         event.preventDefault();
+        if (validate()){
         console.log("[courseListAddCourseForm.submit]: Submitted the new course form.");
 
         var course = Utilities.formToJson(this);
         course.students = [];
 
         $(this)[0].reset();
-
+        
         Page.saveCourseDetails(course);
+    }
     });
 
     $("#studentListPlaceholder").on("click", ".edit", function (event) {
@@ -140,28 +144,31 @@
 
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
-        console.log("[studentDetailsForm.submit]: Submitted the new student form.");
+        if (validate4()) {
+            console.log("[studentDetailsForm.submit]: Submitted the new student form.");
 
-        var student = Utilities.formToJson(this);
+            var student = Utilities.formToJson(this);
 
-        $(this)[0].reset();
-        Page.deselectMenu();
-            $("#studentDetailsForm").hide();       
+            $(this)[0].reset();
+            Page.deselectMenu();
+            $("#studentDetailsForm").hide();
             Page.saveStudentAndDisplayStudents(student);
             Page.selectMenu("Studenter");
+        }
         
     });
 
     $("#studentListAddStudentForm").submit(function (event) {
         event.preventDefault();
-        console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+        if (validate3()) {
+            console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
 
-        var student = Utilities.formToJson(this);
-        
-        $(this)[0].reset();
-        $("#studentDetailsForm").hide();
-        Page.saveStudentAndDisplayStudents(student);
-        
+            var student = Utilities.formToJson(this);
+
+            $(this)[0].reset();
+            $("#studentDetailsForm").hide();
+            Page.saveStudentAndDisplayStudents(student);
+        }
     });
 
     $(document).on("courseSavedCustomEvent", function (event) {
