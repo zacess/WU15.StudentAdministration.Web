@@ -122,6 +122,7 @@
         console.log("[#studentListPlaceholder.click]: Student id clicked: " + studentId);
         if (studentId) {
             $("#studentDetailsForm").show();
+            Page.deselectMenu();
             Page.displayStudentDetailsPlaceholder(studentId);
         }        
     });
