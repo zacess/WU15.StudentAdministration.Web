@@ -116,7 +116,7 @@
         Page.saveCourseDetails(course);
     }
     });
-
+    // Display the edit form for student
     $("#studentListPlaceholder").on("click", ".edit", function (event) {
         var studentId = $(this).data("itemId");
         console.log("[#studentListPlaceholder.click]: Student id clicked: " + studentId);
@@ -126,7 +126,7 @@
             Page.displayStudentDetailsPlaceholder(studentId);
         }        
     });
-
+    // Cancel editing
     $("#studentDetailsCancelButton").on("click", function (event) {
         event.preventDefault();
         console.log("[#studentDetailsCancelButton.click]: Student details canceled.");
@@ -137,7 +137,7 @@
         Page.displayStudentList();
         Page.selectMenu("Studenter");
     });
-
+    // Save the edited student
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
         
@@ -152,7 +152,7 @@
             Page.selectMenu("Studenter");        
         
     });
-
+    // Save the new student details from the student list view.
     $("#studentListAddStudentForm").submit(function (event) {
         event.preventDefault();
         if (validate3()) {

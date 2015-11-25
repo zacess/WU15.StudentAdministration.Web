@@ -152,6 +152,8 @@ var Page = new function Page() {
             html += "<td>" + courses[index].name + "</td>";
             html += "<td>" + courses[index].credits + "</td>";
             html += "<td>" + courses[index].students.length + "</td>";
+            html += "<td>" + courses[index].year + "</td>";
+            html += "<td>" + courses[index].term + "</td>";
             html += "</tr>";
         }
         tbody.append(html);
@@ -571,12 +573,12 @@ var Page = new function Page() {
                 Page.displayDefault();
         }
     }
-
+    
     Page.deselectMenu = function () {
 
         $('.navbar li.active').removeClass('active');
     }
-
+   
     Page.selectMenu = function (menuText) {
         $(".navbar li a.navigation:contains(" + menuText + ")").parent().addClass('active');
     }
