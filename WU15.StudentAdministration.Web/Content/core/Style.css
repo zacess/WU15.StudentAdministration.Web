@@ -56,6 +56,10 @@
 }
 
 .well {
+    width: 450px;
+}
+
+#courseWell {
     width: 300px;
 }
 
