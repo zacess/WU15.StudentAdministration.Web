@@ -1,54 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WU15.StudentAdministration.Web.DataAccess;
 using WU15.StudentAdministration.Web.Models;
 
 namespace WU15.StudentAdministration.Web.API
 {
     public class StudentsController : ApiController
     {
+        private DefaultDataContext db = new DefaultDataContext();
+
         public IEnumerable<Student> Get()
         {
-            return MvcApplication.Students;
+            var students = db.Students.Include("Courses").OrderBy(x => x.FirstName);
+
+            return students;
         }
 
         public Student Get(int id)
         {
-            return MvcApplication.Students.FirstOrDefault(x => x.Id == id);
+            return db.Students.FirstOrDefault(x => x.Id == id);
         }
 
         public string Post(Student student)
         {
-            if (student.Id == 0)
+            Student studentToUpdate = null;
+
+            if (student.Id > 0)
             {
-                if (MvcApplication.Students.Any())
-                {
-                    var id = MvcApplication.Students.Max(x => x.Id) + 1;
-                    student.Id = id;
-                }
-                else
-                {
-                    student.Id = 1;
-                }
+                studentToUpdate = db.Students.First(i => i.Id == student.Id);
             }
             else
             {
-                var savedIndex = MvcApplication.Students.FindIndex(x => x.Id == student.Id);
-                MvcApplication.Students.RemoveAt(savedIndex);
+                studentToUpdate = new Student();
             }
-            MvcApplication.Students.Add(student);
 
-            return string.Format("{0} {1} {2}", student.FirstName, student.LastName, student.personalId);       
+            studentToUpdate.FirstName = student.FirstName;
+            studentToUpdate.LastName = student.LastName;
+            studentToUpdate.Courses = student.Courses;
+            studentToUpdate.personalId = student.personalId;
+
+            if (student.Id > 0)
+            {
+                db.Entry(studentToUpdate).State = EntityState.Modified;
+            }
+            else
+            {
+                db.Students.Add(studentToUpdate);
+            }
+
+            db.SaveChanges();
+
+            return string.Format("{0} {1}", student.FirstName, student.LastName);
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
-            var student = MvcApplication.Students.FirstOrDefault(x => x.Id == id);
-            MvcApplication.Students.Remove(student);
+            var student = db.Students.FirstOrDefault(x => x.Id == id);
+            db.Students.Remove(student);
+            db.SaveChanges();
         }
     }
 }

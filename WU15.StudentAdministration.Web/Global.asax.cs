@@ -15,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 using WU15.StudentAdministration.Web.API;
 using WU15.StudentAdministration.Web.Handlers;
 using WU15.StudentAdministration.Web.Models;
+using Newtonsoft.Json;
 
 namespace WU15.StudentAdministration.Web
 {
@@ -40,6 +41,8 @@ namespace WU15.StudentAdministration.Web
             //GlobalConfiguration.Configuration.Formatters.Insert(0, new JsonpMediaTypeFormatter()); 
             GlobalConfiguration.Configuration.MessageHandlers.Add(new XHttpMethodOverrideDelegatingHandler());
 
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
             Courses = new List<Course>();
             Students = new List<Student>();
             LoadStudents();
@@ -54,7 +57,6 @@ namespace WU15.StudentAdministration.Web
             {
                 Id = 1,
                 //Students = Students,
-                SchoolNo = "c08bdab7-ed3d-4048-8338-d4f14f2770a8",
                 Credits = "15",
                 Name = "Pedagogik 1",
                 Term = "VT",
@@ -66,7 +68,6 @@ namespace WU15.StudentAdministration.Web
             {
                 Id = 2,
                 //Students = Students,
-                SchoolNo = "c08bdab7-ed3d-4048-8338-d4f14f2770a8",
                 Credits = "10",
                 Name = "Pedagogik 2",
                 Term = "VT",
@@ -78,7 +79,6 @@ namespace WU15.StudentAdministration.Web
             {
                 Id = 3,
                 //Students = Students,
-                SchoolNo = "c08bdab7-ed3d-4048-8338-d4f14f2770a8",
                 Credits = "5",
                 Name = "Datalogi 1",
                 Term = "VT",
@@ -90,7 +90,6 @@ namespace WU15.StudentAdministration.Web
             {
                 Id = 4,
                 //Students = Students,
-                SchoolNo = "c08bdab7-ed3d-4048-8338-d4f14f2770a8",
                 Credits = "7,5",
                 Name = "Filosofi 1",
                 Term = "VT",

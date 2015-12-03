@@ -27,7 +27,7 @@
         if (id) {
             Page.deselectMenu();
             Page.displayCourseDetails(id);
-            Page.selectMenu("Redigera Kurs");
+            Page.selectMenu("Skapa Kurs");
         }
     });
 
@@ -86,6 +86,7 @@
         Page.registerSelectedStudent();
     });
 
+
     $('.navbar li, a').click(function (e) {
         $('.navbar li.active').removeClass('active');
         var $this = $(this);
@@ -95,6 +96,7 @@
 
         e.preventDefault();
     });
+
 
     $(".navigation").on("click", function () {
         var panel = this.href.substr(this.href.indexOf("#") + 1);
@@ -116,6 +118,7 @@
         Page.saveCourseDetails(course);
     }
     });
+    
     // Display the edit form for student
     $("#studentListPlaceholder").on("click", ".edit", function (event) {
         var studentId = $(this).data("itemId");
@@ -126,6 +129,7 @@
             Page.displayStudentDetailsPlaceholder(studentId);
         }        
     });
+
     // Cancel editing
     $("#studentDetailsCancelButton").on("click", function (event) {
         event.preventDefault();
@@ -137,6 +141,7 @@
         Page.displayStudentList();
         Page.selectMenu("Studenter");
     });
+
     // Save the edited student
     $("#studentDetailsForm").submit(function (event) {
         event.preventDefault();
@@ -152,6 +157,7 @@
             Page.selectMenu("Studenter");        
         
     });
+
     // Save the new student details from the student list view.
     $("#studentListAddStudentForm").submit(function (event) {
         event.preventDefault();
@@ -165,6 +171,7 @@
             Page.saveStudentAndDisplayStudents(student);
         }
     });
+
 
     $(document).on("courseSavedCustomEvent", function (event) {
         console.log("[courseSavedCustomEvent]: " + event.message.description);

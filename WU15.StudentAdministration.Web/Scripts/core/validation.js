@@ -1,4 +1,5 @@
-﻿function validate() {   
+﻿// Validation for courseListTable
+function validate() {
     
     var name = courseList.name.value;
     var credits = courseList.credits.value;
@@ -26,6 +27,7 @@
               
 }
 
+// Validation for Creating new course
 function validate2() {    
     var name = courseLists.name.value;
     var credits = courseLists.credits.value;
@@ -50,6 +52,7 @@ function validate2() {
         }
     }
 
+// Validation for saving new student
 function validate3() {    
     var firstName = studentList.firstName.value;    
     var lastName = studentList.lastName.value;

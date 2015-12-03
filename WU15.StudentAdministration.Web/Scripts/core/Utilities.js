@@ -31,8 +31,7 @@ var Page = new function Page() {
 
         $.ajax({
             type: "GET",
-            url: configuration.coursesUrl,
-            data: { sid: configuration.organizationId }
+            url: configuration.coursesUrl,            
         }).done(function (data) {
             data.sort(function (a, b) {
                 if (a.name < b.name) return -1;
@@ -54,7 +53,6 @@ var Page = new function Page() {
         $.ajax({
             type: "GET",
             url: configuration.coursesUrl,
-            data: { sid: configuration.organizationId }
         }).done(function (data) {
             console.log("[Page.displayCourseList]: Number of items returned: " + data.length);
 
@@ -72,7 +70,6 @@ var Page = new function Page() {
         $.ajax({
             type: "GET",
             url: configuration.studentsUrl,
-            data: { sid: configuration.organizationId }
         }).done(function (data) {
             console.log("[Page.displayStudentList]: Number of items returned: " + data.length);
             data.sort(function (a, b) {
@@ -88,6 +85,7 @@ var Page = new function Page() {
         });
     }
 
+    // Render default page
     Page.renderDefault = function (courses) {
         var view = "";
         configuration.defaultPlaceholder.empty();
@@ -141,7 +139,7 @@ var Page = new function Page() {
         configuration.defaultPlaceholder.fadeIn(500);
     }
 
-    //Render course list table
+    // Render course list table
     Page.renderCourseList = function (courses) {
         var tbody = $("#courseListTable tbody");
         tbody.empty();
@@ -180,6 +178,7 @@ var Page = new function Page() {
         configuration.studentListPlaceholder.fadeIn(500);
     }
 
+    // Fetch the data and render page
     Page.displayCourseDetails = function (id) {
         console.log("[Page.displayCourseDetails]: Fetching item having id: " + id);
 
@@ -197,6 +196,7 @@ var Page = new function Page() {
         });
     }
 
+    // Fetch the data and render page
     Page.displayStudentDetails = function (id) {
         console.log("[Page.displayStudentDetails]: Fetching item having id: " + id);
 
@@ -214,6 +214,7 @@ var Page = new function Page() {
         });
     }
 
+    // Fetch the data of courseDetailsForm and student list
     Page.renderCourseDetails = function (course) {
         // Hide the default view.
         configuration.defaultPlaceholder.hide();
@@ -239,6 +240,7 @@ var Page = new function Page() {
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
 
+    // Fetch the data of studentDetailsForm 
     Page.renderStudentDetails = function (course) {
         // Hide the default view.
         configuration.defaultPlaceholder.hide();
@@ -254,6 +256,7 @@ var Page = new function Page() {
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
 
+    // Render the studentlist to add them in course
     Page.renderCourseDetailsStudentList = function (course) {
         configuration.courseDetailsStudentListPlaceholder.empty();
         if (course.students.length) {
@@ -284,12 +287,12 @@ var Page = new function Page() {
         }
     }
 
+    // Fetch student to the studentSelectList
     Page.renderCourseDetailsStudentSelectList = function () {
 
         $.ajax({
             type: "GET",
             url: configuration.studentsUrl,
-            data: { sid: configuration.organizationId }
         }).done(function (data) {
 
             configuration.courseDetailsStudentSelectList.empty();
@@ -303,6 +306,7 @@ var Page = new function Page() {
 
     }
 
+    // Render the view in studentSelectList
     Page.appendStudentSelectOption = function (student) {
         var name = student.firstName + " " + student.lastName + " " + student.personalId;
         configuration.courseDetailsStudentSelectList.append(
@@ -408,6 +412,7 @@ var Page = new function Page() {
 
     }
 
+    // Render students already added to course
     Page.appendStudentToList = function (student) {
         configuration.courseDetailsStudentListPlaceholder.append(
                     "<div class='list-group-item registered-student' data-id='"
@@ -435,26 +440,26 @@ var Page = new function Page() {
         var course = {
             id: 0,
             name: "",
-            credits: 0,
-            schoolNo: configuration.organizationId,             
+            credits: 0,        
             students: []
         }
 
         return course;
     }
+
     Page.getStudentTemplate = function () {
         var student = {
             id: 0,
             firstName: "",
             lastName: "",
             personalId: "",
-            schoolNo: configuration.organizationId
             
         }
 
         return student;
     }
 
+    // Render the registerd student to course
     Page.registerSelectedStudent = function () {
         var selectedStudentOption
             = configuration
@@ -483,6 +488,7 @@ var Page = new function Page() {
         }
     }
 
+    // Fetch the data and render page
     Page.displayStudentDetailsPlaceholder = function (id) {
         console.log("[Page.displayStudentDetailsPlaceholder]: Fetching item having id: " + id);
 
@@ -500,6 +506,7 @@ var Page = new function Page() {
         });
     }
 
+    // Fetch the data of studentDetailsForm
     Page.renderStudentDetailsPlaceholder = function (student) {
         // Hide the default view.
         configuration.defaultPlaceholder.hide();
@@ -518,6 +525,7 @@ var Page = new function Page() {
         configuration.studentDetailsPlaceholder.fadeIn(500);
     }
 
+    
     Page.navigate = function (panel) {
         switch (panel) {
             case "start":
@@ -579,6 +587,7 @@ var Page = new function Page() {
         $('.navbar li.active').removeClass('active');
     }
    
+    
     Page.selectMenu = function (menuText) {
         $(".navbar li a.navigation:contains(" + menuText + ")").parent().addClass('active');
     }

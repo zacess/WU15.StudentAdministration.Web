@@ -1,56 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
+using WU15.StudentAdministration.Web.DataAccess;
 using WU15.StudentAdministration.Web.Models;
 
 namespace WU15.StudentAdministration.Web.API
 {
     public class CoursesController : ApiController
     {
+        private DefaultDataContext db = new DefaultDataContext();
+
         [HttpGet]
-        public IEnumerable<Course> Get(string sid)
-        {            
-            return MvcApplication.Courses.Where(x => x.SchoolNo.Equals(sid));
+        public IEnumerable<Course> Get()
+        {
+            return db.Courses.Include(x => x.Students).OrderByDescending(x => x.Name);
         }
 
         public Course Get(int id)
         {
-            return MvcApplication.Courses.FirstOrDefault(x => x.Id == id);
+            return db.Courses.Include(x => x.Students).FirstOrDefault(x => x.Id == id);
         }
 
         public string Post(Course course)
         {
-            if (course.Id == 0)
+            Course courseToUpdate = null;
+            courseToUpdate = course.Id > 0 ? db.Courses.Include("Students").First(i => i.Id == course.Id) : new Course();
+
+            courseToUpdate.Credits = course.Credits;
+            courseToUpdate.Name = course.Name;
+            courseToUpdate.Term = course.Term;
+            courseToUpdate.Year = course.Year;
+
+            foreach (var student in db.Students)
             {
-                if (MvcApplication.Courses.Any())
+                if (course.Students.All(item => item.Id != student.Id)) // Contains
                 {
-                    var id = MvcApplication.Courses.Max(x => x.Id) + 1;
-                    course.Id = id;
+                    courseToUpdate.Students.Remove(student);
                 }
                 else
                 {
-                    course.Id = 1;
+                    courseToUpdate.Students.Add(student);
                 }
+            }
+
+            if (course.Id > 0)
+            {
+                db.Entry(courseToUpdate).State = EntityState.Modified;
             }
             else
             {
-                var savedIndex = MvcApplication.Courses.FindIndex(x => x.Id == course.Id);
-                MvcApplication.Courses.RemoveAt(savedIndex);                
+                db.Courses.Add(courseToUpdate);
             }
-            MvcApplication.Courses.Add(course);
+
+            db.SaveChanges();
 
             return course.Name;
+
         }
 
         [AcceptVerbs("DELETE")]
         public void Delete(int id)
         {
-            var course = MvcApplication.Courses.FirstOrDefault(x => x.Id == id);
-            MvcApplication.Courses.Remove(course);
+            var course = db.Courses.FirstOrDefault(x => x.Id == id);
+            db.Courses.Remove(course);
         }
     }
 }
