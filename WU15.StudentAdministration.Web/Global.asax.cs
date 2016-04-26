@@ -58,6 +58,9 @@ namespace WU15.StudentAdministration.Web
                 Id = 1,
                 //Students = Students,
                 Credits = "15",
+
+                // Students bla bla bla bla bla bla
+
                 Name = "Pedagogik 1",
                 Term = "VT",
                 Year = "2015"
